@@ -1,0 +1,10 @@
+FROM ./lihua-7b.gguf
+TEMPLATE """{{- range $i, $_ := .Messages }}
+{{- $last := eq (len (slice $.Messages $i)) 1 -}}
+<|im_start|>{{ .Role }}
+{{ .Content }}<|im_end|>
+{{ if $last }}<|im_start|>assistant
+{{ end }}
+{{- end }}"""
+PARAMETER stop "<|im_end|>"
+PARAMETER temperature 0.3
